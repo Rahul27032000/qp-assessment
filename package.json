@@ -1,0 +1,15 @@
+{
+  "name": "assesment",
+  "version": "1.0.0",
+  "description": "SmartGrocery is your go-to platform for effortless online grocery management. Admins can easily update inventory, while users enjoy a user-friendly interface for viewing and booking items. With secure authentication, scalable infrastructure, and robust monitoring, SmartGrocery ensures a smooth and secure shopping experience for all.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.3.3"
+  }
+}

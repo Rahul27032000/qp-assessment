@@ -30,13 +30,13 @@ Go to the project directory
 Install dependencies
 
 ```bash
-  npm install
+  yarn
 ```
 
 Start the server
 
 ```bash
-  npm run dev
+  yarn run dev
 ```
 
 ## Environment Variables
@@ -52,7 +52,7 @@ To run this project, you will need to add the following environment variables to
 To run tests, run the following command
 
 ```bash
-  npm run test
+  yarn run test
 ```
 
 ## API Reference
