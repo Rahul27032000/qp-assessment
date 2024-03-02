@@ -12,3 +12,63 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+
+// Prisma Schema
+
+// User model for base user with email, username, and password
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  username String?  @unique
+  password String
+  customer Customer?
+  admin Admin?
+}
+
+// Customer model for users who can do shopping
+model Customer {
+  id       Int      @id @default(autoincrement())
+  user_id  Int      @unique
+  user     User     @relation(fields: [user_id], references: [id])
+  orders   Order[]
+}
+
+// Admin model for users who can add products
+model Admin {
+  id       Int      @id @default(autoincrement())
+  user_id  Int      @unique
+  user     User     @relation(fields: [user_id], references: [id])
+}
+
+// Product model
+model Product {
+  id    Int      @id @default(autoincrement())
+  name  String
+  price Float
+  orderItems   OrderItem[]
+}
+
+// Order model
+model Order {
+  id           Int      @id @default(autoincrement())
+  customer_id  Int?
+  date_ordered DateTime @default(now())
+  complete     Boolean  @default(false)
+  transaction_id String?
+  customer     Customer? @relation(fields: [customer_id], references: [id])
+  orderItems   OrderItem[]
+}
+
+// OrderItem model
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  order_id   Int
+  quantity   Int      @default(0)
+  date_added DateTime @default(now())
+  product    Product  @relation(fields: [product_id], references: [id])
+  order      Order    @relation(fields: [order_id], references: [id])
+}
+
