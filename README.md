@@ -5,7 +5,9 @@ SmartGrocery is your go-to platform for effortless online grocery management. Ad
 ## Tech Stack
 
 **Server:** Node, Express, Typescript, Bcypt, jwt
+
 **Database** PostgreSQL
+
 **ORM** prisma
 
 ## Features
