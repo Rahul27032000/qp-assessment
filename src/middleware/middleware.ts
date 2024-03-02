@@ -29,7 +29,7 @@ export const isAdminAuthenticated = async (
     if (!admin) {
       return res.status(401).json({ message: "Unauthorized - Invalid token" });
     }
-
+    console.log(admin);
     merge(req, { admin: admin });
     return next();
   } catch (error) {
@@ -59,6 +59,25 @@ export const isUserAuthenticated = async (
     if (!user) {
       return res.status(401).json({ message: "Unauthorized - Invalid token" });
     }
+
+    console.log(user);
+
+    merge(req, { user: user });
+    return next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "server error" });
+  }
+};
+
+export const isUserAuthenticatedAdd = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = get(req, "user.id") as string | undefined;
+    console.log(user);
 
     merge(req, { user: user });
     return next();
