@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
 
-export const registerAdmin = async (req: Request, res: Response) => {
+export const registerCustomer = async (req: Request, res: Response) => {
   try {
     const { email, username, password } = req.body;
 
@@ -33,7 +33,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
       },
     });
 
-    await model.Admin.create({
+    await model.Customer.create({
       data: {
         user: {
           connect: {
@@ -42,14 +42,14 @@ export const registerAdmin = async (req: Request, res: Response) => {
         },
       },
     });
-    res.status(201).json({ message: "Admin registered successfully" });
+    res.status(201).json({ message: "Customer registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const loginAdmin = async (req: Request, res: Response) => {
+export const loginCustomer = async (req: Request, res: Response) => {
   try {
     const { email, username, password } = req.body;
 
@@ -63,12 +63,12 @@ export const loginAdmin = async (req: Request, res: Response) => {
         .json({ message: "User with given email does not exist" });
     }
 
-    const admin = await model.Admin.findUnique({
+    const customer = await model.Customer.findUnique({
       where: { user_id: user.id },
     });
 
-    if (!admin) {
-      return res.status(401).json({ message: "you are not admin" });
+    if (!customer) {
+      return res.status(401).json({ message: "you are not customer" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
