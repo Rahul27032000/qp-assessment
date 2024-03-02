@@ -7,6 +7,7 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import healthCheck from "./routes/healthCheck";
 import cors from "cors";
+import limiter from "./middleware/rateLimiter";
 
 app.get<{}, MessageResponse>("/", (req, res) =>
   res.json({ message: "Hello world!" })
@@ -20,6 +21,7 @@ app.use(
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
+app.use(limiter);
 
 app.use("/health", healthCheck);
 app.use("/api/v1", routes);
