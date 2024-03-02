@@ -4,7 +4,7 @@ import { model } from "../utils/prisma";
 import { Request, Response } from "express";
 require("dotenv").config();
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
+export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
 
 export const registerCustomer = async (req: Request, res: Response) => {
   try {

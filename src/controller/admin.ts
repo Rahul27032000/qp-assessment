@@ -2,9 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { model } from "../utils/prisma";
 import { Request, Response } from "express";
-require("dotenv").config();
-
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
+import { JWT_SECRET_KEY } from "./customer";
 
 export const registerAdmin = async (req: Request, res: Response) => {
   try {
