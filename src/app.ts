@@ -2,7 +2,8 @@ import express from "express";
 const app = express();
 import { MessageResponse } from "./interfaces/messageResponse";
 import routes from "./routes/index";
-import * as middleware from "./middleware/middleware";
+import { notFound, errorHandler } from "./middleware/errorHandler";
+
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import healthCheck from "./routes/healthCheck";
@@ -25,7 +26,7 @@ app.use(limiter);
 
 app.use("/health", healthCheck);
 app.use("/api/v1", routes);
-app.use(middleware.notFound);
-app.use(middleware.errorHandler);
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;
