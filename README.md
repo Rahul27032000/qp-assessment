@@ -47,9 +47,11 @@ Start the server
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`API_KEY`
+`DATABASE_URL`
 
-`ANOTHER_API_KEY`
+`JWT_SECRET_KEY`
+
+`PORT`
 
 ## Running Tests
 
