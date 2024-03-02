@@ -33,7 +33,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
       },
     });
 
-    await model.Customer.create({
+    await model.Admin.create({
       data: {
         user: {
           connect: {
