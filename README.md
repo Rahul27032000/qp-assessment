@@ -37,6 +37,18 @@ Install dependencies
   yarn
 ```
 
+create your database tables with Prisma Migrate
+
+```bash
+  npx prisma migrate dev --name init
+```
+
+Generated Prisma Client
+
+```bash
+  npx prisma generate
+```
+
 Start the server
 
 ```bash
@@ -52,6 +64,16 @@ To run this project, you will need to add the following environment variables to
 `JWT_SECRET_KEY`
 
 `PORT`
+
+## Set up your `.env` file
+
+- Duplicate `.env.example` to `.env`
+- Use `openssl rand -base64 32` to generate a key and add it under `JWT_SECRET_KEY` in the `.env` file.
+- Configure environment variables in the `.env` file. Replace `<user>`, `<pass>`, `<db-host>`, and `<db-port>` with their applicable values
+
+  ```
+  DATABASE_URL='postgresql://<user>:<pass>@<db-host>:<db-port>'
+  ```
 
 ## Running Tests
 
