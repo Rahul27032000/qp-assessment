@@ -18,7 +18,6 @@ export const addProductOrder = async (req: Request, res: Response) => {
     });
 
     if (!order) {
-      console.log("order creating");
       order = await model.Order.create({
         data: { customer_id: parseInt(userId!) },
       });
@@ -29,14 +28,11 @@ export const addProductOrder = async (req: Request, res: Response) => {
     });
 
     if (orderItem) {
-      console.log("orderItem updating");
       orderItem = await model.OrderItem.update({
         where: { id: orderItem.id },
         data: { quantity: orderItem.quantity + 1 },
       });
-      console.log("orderItem updated");
     } else {
-      console.log("orderItem creating");
       orderItem = await model.OrderItem.create({
         data: {
           order_id: order.id,
@@ -78,7 +74,7 @@ export const placeOrder = async (req: Request, res: Response) => {
       data: { complete: true },
     });
 
-    res.json(updatedOrder);
+    res.json({ order: updatedOrder, price: totalPrice });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
