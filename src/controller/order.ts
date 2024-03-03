@@ -2,6 +2,7 @@ import { OrderItem } from "@prisma/client";
 import { model } from "../utils/prisma";
 import { Request, Response, NextFunction } from "express";
 import { get } from "lodash";
+import { addProductToOrderSchema } from "../validators/validators";
 
 interface OrderItemWithProduct extends OrderItem {
   product: {
@@ -11,7 +12,14 @@ interface OrderItemWithProduct extends OrderItem {
 
 export const addProductOrder = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.body;
+    const parsedInput = addProductToOrderSchema.safeParse(req.body);
+    if (!parsedInput.success) {
+      return res.status(400).json({ message: "Bad request - Invalid input" });
+    }
+
+    console.log(parsedInput);
+    const productId = parsedInput.data.productId;
+
     const userId = get(req, "user.id") as string | undefined;
     let order = await model.Order.findFirst({
       where: { customer_id: parseInt(userId!), complete: false },

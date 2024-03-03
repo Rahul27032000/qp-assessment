@@ -1,5 +1,6 @@
 import { model } from "../utils/prisma";
 import { Request, Response } from "express";
+import { createProductSchema } from "../validators/validators";
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -13,7 +14,15 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const { name, price } = req.body;
+    const parsedInput = createProductSchema.safeParse(req.body);
+
+    if (!parsedInput.success) {
+      return res.status(400).json({ message: "Bad request - Invalid input" });
+    }
+
+    const name = parsedInput.data.name;
+    const price = parsedInput.data.price;
+
     const product = await model.Product.create({ data: { name, price } });
     res.status(201).json(product);
   } catch (error) {
@@ -25,7 +34,16 @@ export const createProduct = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, price } = req.body;
+
+    const parsedInput = createProductSchema.safeParse(req.body);
+
+    if (!parsedInput.success) {
+      return res.status(400).json({ message: "Bad request - Invalid input" });
+    }
+
+    const name = parsedInput.data.name;
+    const price = parsedInput.data.price;
+
     const updatedProduct = await model.Product.update({
       where: { id: parseInt(id) },
       data: { name, price },
