@@ -11,7 +11,7 @@ interface OrderItemWithProduct extends OrderItem {
 
 export const addProductOrder = async (req: Request, res: Response) => {
   try {
-    const { productId, quantity } = req.body;
+    const { productId } = req.body;
     const userId = get(req, "user.id") as string | undefined;
     let order = await model.Order.findFirst({
       where: { customer_id: parseInt(userId!), complete: false },
@@ -30,14 +30,13 @@ export const addProductOrder = async (req: Request, res: Response) => {
     if (orderItem) {
       orderItem = await model.OrderItem.update({
         where: { id: orderItem.id },
-        data: { quantity: orderItem.quantity + quantity },
+        data: { quantity: orderItem.quantity + 1 },
       });
     } else {
       orderItem = await model.OrderItem.create({
         data: {
           order_id: order.id,
           product_id: productId,
-          quantity,
         },
       });
       return res.status(200).json(orderItem);
