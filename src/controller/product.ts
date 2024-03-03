@@ -17,7 +17,9 @@ export const createProduct = async (req: Request, res: Response) => {
     const parsedInput = createProductSchema.safeParse(req.body);
 
     if (!parsedInput.success) {
-      return res.status(400).json({ message: "Bad request - Invalid input" });
+      const errorMessage =
+        parsedInput.error.errors[0]?.message || "Invalid input";
+      return res.status(400).json({ message: `Bad request - ${errorMessage}` });
     }
 
     const name = parsedInput.data.name;
@@ -38,7 +40,9 @@ export const updateProduct = async (req: Request, res: Response) => {
     const parsedInput = createProductSchema.safeParse(req.body);
 
     if (!parsedInput.success) {
-      return res.status(400).json({ message: "Bad request - Invalid input" });
+      const errorMessage =
+        parsedInput.error.errors[0]?.message || "Invalid input";
+      return res.status(400).json({ message: `Bad request - ${errorMessage}` });
     }
 
     const name = parsedInput.data.name;

@@ -13,8 +13,11 @@ interface OrderItemWithProduct extends OrderItem {
 export const addProductOrder = async (req: Request, res: Response) => {
   try {
     const parsedInput = addProductToOrderSchema.safeParse(req.body);
+
     if (!parsedInput.success) {
-      return res.status(400).json({ message: "Bad request - Invalid input" });
+      const errorMessage =
+        parsedInput.error.errors[0]?.message || "Invalid input";
+      return res.status(400).json({ message: `Bad request - ${errorMessage}` });
     }
 
     console.log(parsedInput);

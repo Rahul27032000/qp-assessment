@@ -3,10 +3,20 @@ import jwt from "jsonwebtoken";
 import { model } from "../utils/prisma";
 import { Request, Response } from "express";
 import { JWT_SECRET_KEY } from "./customer";
+import { z } from "zod";
+import { createUserSchema, loginUserSchema } from "../validators/validators";
 
 export const registerAdmin = async (req: Request, res: Response) => {
   try {
-    const { email, username, password } = req.body;
+    const parsedInput = createUserSchema.safeParse(req.body);
+    if (!parsedInput.success) {
+      const errorMessage =
+        parsedInput.error.errors[0]?.message || "Invalid input";
+      return res.status(400).json({ message: `Bad request - ${errorMessage}` });
+    }
+    const email = parsedInput.data.email;
+    const username = parsedInput.data.username;
+    const password = parsedInput.data.password;
 
     const existingUser = await model.User.findFirst({
       where: {
@@ -49,7 +59,14 @@ export const registerAdmin = async (req: Request, res: Response) => {
 
 export const loginAdmin = async (req: Request, res: Response) => {
   try {
-    const { email, username, password } = req.body;
+    const parsedInput = loginUserSchema.safeParse(req.body);
+    if (!parsedInput.success) {
+      const errorMessage =
+        parsedInput.error.errors[0]?.message || "Invalid input";
+      return res.status(400).json({ message: `Bad request - ${errorMessage}` });
+    }
+    const email = parsedInput.data.email;
+    const password = parsedInput.data.password;
 
     const user = await model.User.findUnique({
       where: { email },
